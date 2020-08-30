@@ -48,8 +48,7 @@ public class HomeView extends JFrame {
 		btnConsumidores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ConsumidorView frame = new ConsumidorView();
-					frame.setVisible(true);
+					ConsumidorView.main(new String[]{""});
 				} catch (Exception error) {
 					error.printStackTrace();
 				}
@@ -64,9 +63,9 @@ public class HomeView extends JFrame {
 		btnFornecedores.setVerticalAlignment(SwingConstants.TOP);
 		btnFornecedores.setAlignmentX(0.5f);
 		btnFornecedores.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				FornecedorView frame = new FornecedorView();
-				frame.setVisible(true);
+			public void actionPerformed(ActionEvent arg0) {				
+				FornecedorView.main(new String[]{""});
+				
 			}
 		});
 		contentPane.add(btnFornecedores);

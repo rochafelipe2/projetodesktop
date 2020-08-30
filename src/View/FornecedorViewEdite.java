@@ -12,6 +12,7 @@ import Model.FornecedorModel;
 import Services.FornecedorService;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -81,6 +82,9 @@ public class FornecedorViewEdite extends JFrame {
 				model.descricao = lbldescricao.getText();
 				
 				service.Atualizar(model);
+				
+				JOptionPane.showMessageDialog(null,"Salvo com sucesso!",
+						  "Sucesso!",2);
 				setVisible(false);
 				((FornecedorView)parentFrame).loadTable();
 				

@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import Model.ClienteFilterModel;
 import Model.ClienteModel;
@@ -107,7 +108,6 @@ public class FornecedorView extends JFrame {
 		table.setEnabled(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setShowHorizontalLines(true);
-		table.setSurrendersFocusOnKeystroke(true);
 		table.setShowVerticalLines(true);
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -136,10 +136,15 @@ public class FornecedorView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//Remover
 				if(selectedId > 0){
-					service.Remover(selectedId);
-					JOptionPane.showMessageDialog(null,"Removido!",
-							  "Sucesso!",2);
-					loadTable();
+					
+					int flag = JOptionPane.showConfirmDialog(frame, "Deja continuar?");
+					if(flag == 0){
+						service.Remover(selectedId);
+						JOptionPane.showMessageDialog(null,"Removido!",
+								  "Sucesso!",2);
+						loadTable();
+					}
+					
 				}else{
 					JOptionPane.showMessageDialog(null, "Selecione um item da lista para remover.");
 				}
@@ -180,10 +185,11 @@ public class FornecedorView extends JFrame {
 				}
 			}
 		});
-		loadTable();
+		
 	}
 	
 	public void loadTable(){
+		table.setModel(new DefaultTableModel());
 		ArrayList<IModel> results = service.Buscar(new ClienteFilterModel());
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		Vector<String> col = new Vector<String>();
@@ -201,12 +207,10 @@ public class FornecedorView extends JFrame {
 			data.add(interno);
 		});
 
+		System.out.println("Atualizou de novo!!!"+data.toString());
 		
-		table.setModel(new DefaultTableModel(
-				data,
-				col
-				)
-			
-		);
+		DefaultTableModel model = new DefaultTableModel(data, col);
+		table.setModel(model);
+		
 	}
 }

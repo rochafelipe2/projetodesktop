@@ -185,10 +185,14 @@ public class ConsumidorView extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(selectedId > 0){
-					service.Remover(selectedId);
-					JOptionPane.showMessageDialog(null,"Removido!",
-							  "Sucesso!",2);
-					loadTable();
+					int flag = JOptionPane.showConfirmDialog(frame, "Deseja continuar?");
+					if(flag == 0){
+						service.Remover(selectedId);
+						JOptionPane.showMessageDialog(null,"Removido!",
+								  "Sucesso!",2);
+						loadTable();	
+					}
+					
 				}else{
 					JOptionPane.showMessageDialog(null, "Selecione um cliente da lista para remover.");
 				}
