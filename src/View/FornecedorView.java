@@ -11,10 +11,12 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import Control.ControllerFornecedor;
 import Model.ClienteFilterModel;
-import Model.ClienteModel;
+import Model.ConsumidorModel;
 import Model.FornecedorModel;
 import Model.IModel;
+import Model.ModelBase;
 import Services.FornecedorService;
 
 import javax.swing.JLabel;
@@ -39,6 +41,7 @@ public class FornecedorView extends JFrame {
 	static FornecedorView frame = new FornecedorView();
 
 	private FornecedorService service = new FornecedorService("fornecedores");
+	private ControllerFornecedor controlador = new ControllerFornecedor();
 	/**
 	 * Launch the application.
 	 */
@@ -58,8 +61,9 @@ public class FornecedorView extends JFrame {
 	 * Create the frame.
 	 */
 	public FornecedorView() {
+		controlador.setArquivo("fornecedores");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 495, 405);
+		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -130,7 +134,7 @@ public class FornecedorView extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnNewButton_3.setBounds(347, 5, 120, 28);
+		btnNewButton_3.setBounds(344, 5, 123, 28);
 		panel.add(btnNewButton_3);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -139,7 +143,8 @@ public class FornecedorView extends JFrame {
 					
 					int flag = JOptionPane.showConfirmDialog(frame, "Deja continuar?");
 					if(flag == 0){
-						service.Remover(selectedId);
+						//service.Remover(selectedId);
+						controlador.remover(selectedId);
 						JOptionPane.showMessageDialog(null,"Removido!",
 								  "Sucesso!",2);
 						loadTable();
@@ -173,7 +178,8 @@ public class FornecedorView extends JFrame {
 					model.setDescricao(descricaoFornecedor.getText());
 					
 					
-					service.Adicionar(model);
+					//service.Adicionar(model);
+					controlador.add(model);
 					JOptionPane.showMessageDialog(null,"Salvo com sucesso!",
 							  "Sucesso!",2);
 					
@@ -190,7 +196,9 @@ public class FornecedorView extends JFrame {
 	
 	public void loadTable(){
 		table.setModel(new DefaultTableModel());
-		ArrayList<IModel> results = service.Buscar(new ClienteFilterModel());
+		//ArrayList<IModel> results = service.Buscar(new ClienteFilterModel());
+		ArrayList<ModelBase> results = controlador.buscar();
+		
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		Vector<String> col = new Vector<String>();
 		col.add("Id");

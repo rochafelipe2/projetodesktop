@@ -7,7 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Model.ClienteModel;
+import Control.ControllerFornecedor;
+import Model.ConsumidorModel;
 import Model.FornecedorModel;
 import Services.FornecedorService;
 
@@ -25,6 +26,7 @@ public class FornecedorViewEdite extends JFrame {
 	private JTextField descricaoFornecedor;
 	private FornecedorModel model;
 	private FornecedorService service = new FornecedorService("fornecedores");
+	private ControllerFornecedor controlador = new ControllerFornecedor();
 	/**
 	 * Launch the application.
 	 */
@@ -45,10 +47,11 @@ public class FornecedorViewEdite extends JFrame {
 	 * Create the frame.
 	 */
 	public FornecedorViewEdite(int id, JFrame parentFrame) {
-		model = (FornecedorModel)service.Buscar(id);
+		controlador.setArquivo("fornecedores");
+		model = (FornecedorModel)controlador.buscar(id);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -79,10 +82,10 @@ public class FornecedorViewEdite extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.nome = nomeFornecedor.getText();
-				model.descricao = lbldescricao.getText();
+				model.descricao = descricaoFornecedor.getText();
 				
-				service.Atualizar(model);
-				
+				//service.Atuaslizar(model);
+				controlador.atualizar(model);
 				JOptionPane.showMessageDialog(null,"Salvo com sucesso!",
 						  "Sucesso!",2);
 				setVisible(false);

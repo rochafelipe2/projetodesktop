@@ -7,7 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Model.ClienteModel;
+import Control.ControllerConsumidor;
+import Model.ConsumidorModel;
 import Services.ConsumidorService;
 
 import javax.swing.JLabel;
@@ -22,8 +23,9 @@ public class ConsumidorViewEdite extends JFrame {
 	private JTextField clienteNome;
 	private JTextField clienteIdade;
 	private JTextField clienteCelular;
-	private ClienteModel model;
+	private ConsumidorModel model;
 	private ConsumidorService service = new ConsumidorService();
+	private ControllerConsumidor controlador = new ControllerConsumidor();
 	/**
 	 * Launch the application.
 	 */
@@ -44,10 +46,11 @@ public class ConsumidorViewEdite extends JFrame {
 	 * Create the frame.
 	 */
 	public ConsumidorViewEdite(int id, JFrame parentFrame) {
-		model = (ClienteModel)service.Buscar(id);
+		controlador.setArquivo("consumidores");
+		model = (ConsumidorModel)controlador.buscar(id);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -98,7 +101,8 @@ public class ConsumidorViewEdite extends JFrame {
 				model.nome = clienteNome.getText();
 				model.idade = Integer.parseInt(clienteIdade.getText());
 				model.celular = clienteCelular.getText();
-				service.Atualizar(model);
+				//service.Atualizar(model);
+				controlador.atualizar(model);
 				setVisible(false);
 				((ConsumidorView)parentFrame).loadTable();
 			}

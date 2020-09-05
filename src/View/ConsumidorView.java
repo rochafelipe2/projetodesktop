@@ -10,8 +10,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import Model.ClienteFilterModel;
-import Model.ClienteModel;
+import Model.ConsumidorModel;
 import Model.IModel;
+import Model.ModelBase;
 import Services.ConsumidorService;
 
 import javax.swing.BoxLayout;
@@ -33,6 +34,10 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
+
+import Control.ControllerArquivoBinario;
+import Control.ControllerConsumidor;
+
 import javax.swing.JTabbedPane;
 import java.awt.GridLayout;
 import javax.swing.table.DefaultTableModel;
@@ -45,7 +50,8 @@ public class ConsumidorView extends JFrame {
 	private JTextField nomeCliente;
 	private JTextField idadeCliente;
 	private JTextField celularCliente;
-	private ConsumidorService service = new ConsumidorService();;
+	private ConsumidorService service = new ConsumidorService();
+	private ControllerConsumidor controlador = new ControllerConsumidor();
 	private JTable table;
 	private int selectedId;
 	/**
@@ -68,8 +74,9 @@ public class ConsumidorView extends JFrame {
 	 * Create the frame.
 	 */
 	public ConsumidorView() {
+		controlador.setArquivo("consumidores");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 533, 593);
+		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -84,7 +91,7 @@ public class ConsumidorView extends JFrame {
 		panel.add(lblnomeCliente);
 		
 		nomeCliente = new JTextField();
-		nomeCliente.setBounds(68, 11, 273, 26);
+		nomeCliente.setBounds(68, 11, 224, 26);
 		panel.add(nomeCliente);
 		nomeCliente.setColumns(10);
 		
@@ -97,12 +104,12 @@ public class ConsumidorView extends JFrame {
 		panel.add(lblcelularCliente);
 		
 		idadeCliente = new JTextField();
-		idadeCliente.setBounds(68, 48, 273, 26);
+		idadeCliente.setBounds(68, 48, 224, 26);
 		idadeCliente.setColumns(10);
 		panel.add(idadeCliente);
 		
 		celularCliente = new JTextField();
-		celularCliente.setBounds(68, 85, 273, 26);
+		celularCliente.setBounds(68, 85, 224, 26);
 		celularCliente.setColumns(10);
 		panel.add(celularCliente);
 		
@@ -118,12 +125,13 @@ public class ConsumidorView extends JFrame {
 		}else{
 			
 		
-				ClienteModel model = new ClienteModel();
+				ConsumidorModel model = new ConsumidorModel();
 				model.setNome(nomeCliente.getText());
 				model.setCelular(celularCliente.getText());
 				model.setIdade(Integer.parseInt(idadeCliente.getText()));
 				
-				service.Adicionar(model);
+				//service.Adicionar(model);
+				controlador.add(model);
 				JOptionPane.showMessageDialog(null,"Consumidor salvo com sucesso!",
 						  "Sucesso!",1);
 				
@@ -138,7 +146,7 @@ public class ConsumidorView extends JFrame {
 		panel.add(btnSalvar);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 186, 458, 234);
+		scrollPane.setBounds(12, 186, 418, 234);
 		panel.add(scrollPane);
 		
 		table = new JTable();
@@ -187,7 +195,8 @@ public class ConsumidorView extends JFrame {
 				if(selectedId > 0){
 					int flag = JOptionPane.showConfirmDialog(frame, "Deseja continuar?");
 					if(flag == 0){
-						service.Remover(selectedId);
+						//service.Remover(selectedId);
+						controlador.remover(selectedId);
 						JOptionPane.showMessageDialog(null,"Removido!",
 								  "Sucesso!",2);
 						loadTable();	
@@ -207,13 +216,15 @@ public class ConsumidorView extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnMenuPrincipal.setBounds(417, 0, 90, 28);
+		btnMenuPrincipal.setBounds(351, 0, 117, 28);
 		panel.add(btnMenuPrincipal);
 		
 	}
 	
 	public void loadTable(){
-		ArrayList<IModel> results = service.Buscar(new ClienteFilterModel());
+		//ArrayList<IModel> results = service.Buscar(new ClienteFilterModel());
+		
+		ArrayList<ModelBase> results = controlador.buscar(); 
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		Vector<String> col = new Vector<String>();
 		col.add("Id");
@@ -222,11 +233,12 @@ public class ConsumidorView extends JFrame {
 		col.add("Celular");
 		results.forEach( (x) -> {
 			Vector<String> interno = new Vector<String>();
-			ClienteModel temp = (ClienteModel) x;
+			ConsumidorModel temp = (ConsumidorModel) x;
 			interno.add(temp.getId()+"");
 			interno.add(temp.getNome());
 			interno.add(temp.getIdade()+"");
 			interno.add(temp.getCelular());
+			System.out.print(interno.toString());
 			data.add(interno);
 		});
 

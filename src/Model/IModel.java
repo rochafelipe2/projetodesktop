@@ -1,5 +1,5 @@
 package Model;
 
-public interface IModel {
+public interface IModel extends java.io.Serializable {
 
 }

@@ -1,6 +1,6 @@
 package Model;
 
-public class FornecedorModel implements IModel {
+public class FornecedorModel extends ModelBase implements IModel {
 
 	public int id;
 	public int getId() {

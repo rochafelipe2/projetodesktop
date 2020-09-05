@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Model.ClienteModel;
+import Model.ConsumidorModel;
 import Model.IModel;
 
 public class ConsumidorService extends IService {
@@ -26,8 +26,8 @@ public class ConsumidorService extends IService {
 		// TODO Auto-generated method stub
 		try{
 			arquivo = new BufferedWriter(new FileWriter(new File(dir,table),true));
-			((ClienteModel)model).setId(buscarUltimoId());
-			arquivo.write(((ClienteModel)model).toString());
+			((ConsumidorModel)model).setId(buscarUltimoId());
+			arquivo.write(((ConsumidorModel)model).toString());
 			arquivo.newLine();
 			arquivo.flush();
 			arquivo.close();
@@ -72,17 +72,17 @@ public class ConsumidorService extends IService {
 	@Override
 	public boolean Atualizar(IModel model) {
 		// TODO Auto-generated method stub
-		model = ((ClienteModel)model);
+		model = ((ConsumidorModel)model);
 		try {
 			saida = new BufferedReader(new FileReader(new File(dir,"consumidores")));
 	        StringBuffer inputBuffer = new StringBuffer();
 
 			while(saida.ready()){
 				String line = saida.readLine();
-				ClienteModel item =  Converte(line);
+				ConsumidorModel item =  Converte(line);
 				
-				if(item.id == ((ClienteModel)model).id){
-				 line = ((ClienteModel)model).id +";"+((ClienteModel)model).nome+";" +((ClienteModel)model).idade + ";"+((ClienteModel)model).celular;
+				if(item.id == ((ConsumidorModel)model).id){
+				 line = ((ConsumidorModel)model).id +";"+((ConsumidorModel)model).nome+";" +((ConsumidorModel)model).idade + ";"+((ConsumidorModel)model).celular;
 				 inputBuffer.append(line);
 				 inputBuffer.append("\n");
 				}else{
@@ -113,7 +113,7 @@ public class ConsumidorService extends IService {
 			while(saida.ready()){
 				String line = saida.readLine();
 				if(!line.isEmpty()){
-					ClienteModel item =  Converte(line);
+					ConsumidorModel item =  Converte(line);
 					if(item.id == id){
 						saida.close();
 						return item;
@@ -151,10 +151,10 @@ public class ConsumidorService extends IService {
 		return resultados;
 	}
 	
-	public ClienteModel Converte(String modelString){
+	public ConsumidorModel Converte(String modelString){
 		String[] line = modelString.split(";");
 		
-		ClienteModel model = new ClienteModel();
+		ConsumidorModel model = new ConsumidorModel();
 		model.setId(Integer.parseInt(line[0]));
 		model.setCelular(line[3]);
 		model.setIdade(Integer.parseInt(line[2]));

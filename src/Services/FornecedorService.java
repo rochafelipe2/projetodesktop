@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Model.ClienteModel;
+import Model.ConsumidorModel;
 import Model.FornecedorModel;
 import Model.IModel;
 

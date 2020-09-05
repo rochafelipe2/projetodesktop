@@ -1,26 +1,28 @@
 package Model;
 
-public class ClienteModel implements IModel{
-
-	public ClienteModel(){
+public class ConsumidorModel extends ModelBase implements IModel {
+	
+	public ConsumidorModel(){
 		
 	}
 	
-    public ClienteModel(int id,String nome, int idade, String cel){
+    public ConsumidorModel(int id,String nome, int idade, String cel){
 		this.nome = nome;
 		this.idade = idade;
 		this.celular = cel;
 		this.id = id;
 	}
 	
-	public int id;
+	
+    public int id;
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
-		
 		this.id = id;
 	}
+
 
 	public String nome;
 	public String celular;
